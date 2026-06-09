@@ -266,25 +266,81 @@ final class PingPongGameController: NSObject, ObservableObject {
         }
     }
 
-    /// 创建球网和半透明网面。
+    /// 创建球网视觉细节和独立物理碰撞体。
     private func addNet() {
-        let net = SCNBox(
+        let netMaterial = SCNMaterial()
+        netMaterial.diffuse.contents = UIColor(white: 0.94, alpha: 1)
+        netMaterial.emission.contents = UIColor(white: 0.18, alpha: 1)
+        netMaterial.lightingModel = .physicallyBased
+        netMaterial.roughness.contents = 0.72
+        netMaterial.isDoubleSided = true
+
+        addNetBar(
+            size: SCNVector3(Float(TableSpec.tableWidth + 0.20), 0.026, 0.026),
+            position: SCNVector3(0, Float(TableSpec.tableHeight + TableSpec.netHeight), 0),
+            material: netMaterial
+        )
+        addNetBar(
+            size: SCNVector3(Float(TableSpec.tableWidth + 0.20), 0.014, 0.018),
+            position: SCNVector3(0, Float(TableSpec.tableHeight + 0.018), 0),
+            material: netMaterial
+        )
+        addNetBar(
+            size: SCNVector3(Float(TableSpec.tableWidth + 0.18), 0.012, 0.018),
+            position: SCNVector3(0, Float(TableSpec.tableHeight + TableSpec.netHeight * 0.58), 0),
+            material: netMaterial
+        )
+
+        let postX = Float((TableSpec.tableWidth + 0.20) / 2)
+        for x in [-postX, postX] {
+            addNetBar(
+                size: SCNVector3(0.034, Float(TableSpec.netHeight + 0.10), 0.034),
+                position: SCNVector3(x, Float(TableSpec.tableHeight + (TableSpec.netHeight + 0.10) / 2), 0),
+                material: netMaterial
+            )
+        }
+
+        for index in 0...10 {
+            let progress = Float(index) / 10.0
+            let x = -postX + progress * postX * 2.0
+            addNetBar(
+                size: SCNVector3(0.009, Float(TableSpec.netHeight - 0.036), 0.012),
+                position: SCNVector3(x, Float(TableSpec.tableHeight + TableSpec.netHeight / 2), 0),
+                material: netMaterial
+            )
+        }
+
+        let collisionGeometry = SCNBox(
             width: TableSpec.tableWidth + 0.18,
             height: TableSpec.netHeight,
             length: TableSpec.netThickness,
-            chamferRadius: 0.01
+            chamferRadius: 0
         )
-        net.firstMaterial?.diffuse.contents = UIColor.white.withAlphaComponent(0.42)
-        net.firstMaterial?.isDoubleSided = true
+        let collisionShape = SCNPhysicsShape(geometry: collisionGeometry, options: nil)
+        let collisionNode = SCNNode()
+        collisionNode.name = "netCollision"
+        collisionNode.position = SCNVector3(0, Float(TableSpec.tableHeight + TableSpec.netHeight / 2), 0)
+        collisionNode.physicsBody = SCNPhysicsBody(type: .static, shape: collisionShape)
+        collisionNode.physicsBody?.categoryBitMask = PhysicsCategory.wall
+        collisionNode.physicsBody?.collisionBitMask = PhysicsCategory.ball
+        collisionNode.physicsBody?.friction = 0.12
+        collisionNode.physicsBody?.restitution = 0.58
+        scene.rootNode.addChildNode(collisionNode)
+    }
 
-        let netNode = SCNNode(geometry: net)
-        netNode.position = SCNVector3(0, Float(TableSpec.tableHeight + TableSpec.netHeight / 2), 0)
-        netNode.physicsBody = SCNPhysicsBody.static()
-        netNode.physicsBody?.categoryBitMask = PhysicsCategory.wall
-        netNode.physicsBody?.collisionBitMask = PhysicsCategory.ball
-        netNode.physicsBody?.friction = 0.12
-        netNode.physicsBody?.restitution = 0.58
-        scene.rootNode.addChildNode(netNode)
+    /// 添加不透明细条组成球网，避免半透明面在部分设备上渲染成黑块。
+    private func addNetBar(size: SCNVector3, position: SCNVector3, material: SCNMaterial) {
+        let bar = SCNBox(
+            width: CGFloat(size.x),
+            height: CGFloat(size.y),
+            length: CGFloat(size.z),
+            chamferRadius: 0.003
+        )
+        bar.firstMaterial = material
+
+        let node = SCNNode(geometry: bar)
+        node.position = position
+        scene.rootNode.addChildNode(node)
     }
 
     /// 创建玩家和 AI 球拍，并配置可碰撞的运动学物理体。
@@ -433,6 +489,21 @@ final class PingPongGameController: NSObject, ObservableObject {
         body.velocity = velocity
     }
 
+    /// 当球已经掉到球台下方且未触发后方得分墙时，按落球半场补判得分。
+    private func scoreDroppedBallIfNeeded() {
+        guard isRunning, canScore else { return }
+
+        let ballPosition = ballNode.presentation.position
+        let dropScoreY = Float(TableSpec.tableHeight - 0.18)
+        guard ballPosition.y < dropScoreY else { return }
+
+        let playerScored = ballPosition.z < 0
+        DispatchQueue.main.async { [weak self] in
+            guard let self, self.canScore else { return }
+            self.scorePoint(playerScored: playerScored)
+        }
+    }
+
     /// 根据碰撞位置对球拍反弹角度施加微调，模拟真实击球落点差异。
     private func applyPaddleBounce(from paddle: SCNNode) {
         guard let body = ballNode.physicsBody else { return }
@@ -505,6 +576,7 @@ extension PingPongGameController: SCNSceneRendererDelegate {
 
         updatePlayerPaddle(deltaTime: deltaTime)
         updateAIPaddle(deltaTime: deltaTime)
+        scoreDroppedBallIfNeeded()
         stabilizeBallIfNeeded(currentTime: time)
     }
 }

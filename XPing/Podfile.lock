@@ -1,0 +1,22 @@
+PODS:
+  - AppsFlyerFramework (6.18.0):
+    - AppsFlyerFramework/Main (= 6.18.0)
+  - AppsFlyerFramework/Main (6.18.0)
+  - ReachabilitySwift (5.2.4)
+
+DEPENDENCIES:
+  - AppsFlyerFramework
+  - ReachabilitySwift
+
+SPEC REPOS:
+  trunk:
+    - AppsFlyerFramework
+    - ReachabilitySwift
+
+SPEC CHECKSUMS:
+  AppsFlyerFramework: c1e1e4cd3b98ffdca2fe32b17ae93909e409b6ab
+  ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
+
+PODFILE CHECKSUM: 8c4a9e46d80a03efc50bed9309bfc745b1d1a010
+
+COCOAPODS: 1.16.2

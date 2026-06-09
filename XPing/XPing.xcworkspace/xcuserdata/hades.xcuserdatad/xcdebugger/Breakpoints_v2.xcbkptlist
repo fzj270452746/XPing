@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "79017D8F-407D-4B7E-9A8C-1C7C5FA85A69"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "86CC26C6-5132-4640-8199-41E81EA6CF79"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XPing/New Group 2/deepseek_swift_20260609_e2ce81.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "checkUnlockStages()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "29335B2D-9950-4D7A-9A15-F8F6DA68FBEC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XPing/New Group 2/CycleKernel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "checkUnlockStages()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F0FBF4CF-28F5-4641-B4AB-773B4AF487AB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "XPing/New Group 2/Baoxnt.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
+            landmarkName = "Jocmztt(completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F0FBF4CF-28F5-4641-B4AB-773B4AF487AB - 8602bd003f9fb4de"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () async -&gt; () in XPing.Mlcoiyts.Jocmztt(completion: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "XPing.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hades/Desktop/Code/26/06/0609-%E8%A1%A5/1/XPing/XPing/New%20Group%202/Baoxnt.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "272"
+                  endingLineNumber = "272">
+               </Location>
+               <Location
+                  uuid = "F0FBF4CF-28F5-4641-B4AB-773B4AF487AB - c485ebaa86adfef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for closure #1 () async -&gt; () in XPing.Mlcoiyts.Jocmztt(completion: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "XPing.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hades/Desktop/Code/26/06/0609-%E8%A1%A5/1/XPing/XPing/New%20Group%202/Baoxnt.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "272"
+                  endingLineNumber = "272">
+               </Location>
+               <Location
+                  uuid = "F0FBF4CF-28F5-4641-B4AB-773B4AF487AB - 238a25e8a4e42a00"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) suspend resume partial function for closure #1 () async -&gt; () in XPing.Mlcoiyts.Jocmztt(completion: (Swift.Bool) -&gt; ()) -&gt; ()"
+                  moduleName = "XPing.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hades/Desktop/Code/26/06/0609-%E8%A1%A5/1/XPing/XPing/New%20Group%202/Baoxnt.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "272"
+                  endingLineNumber = "272">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

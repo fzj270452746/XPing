@@ -1,0 +1,58 @@
+workflows:
+  ios-native-quick-start:
+    name: LitePong 3D
+    max_build_duration: 120
+    instance_type: mac_mini_m4
+    integrations:
+      app_store_connect: pong
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.fun.pingpong
+      vars:
+        BUNDLE_ID: $bundle_identifier
+        PROJECT_PATH: "XPing" #5:工程名称
+        XCODE_WORKSPACE: "$PROJECT_PATH/$PROJECT_PATH.xcworkspace"
+        XCODE_SCHEME: $PROJECT_PATH
+        APP_STORE_APPLE_ID: 6778315613
+      xcode: latest # <-- set to specific version e.g. 14.3, 15.0 to avoid unexpected updates.
+      cocoapods: default
+    scripts:
+      - name: Install CocoaPods dependencies
+        script: |
+          cd $PROJECT_PATH # 切换到包含 Podfile 的目录
+          pod install
+
+      - name: Set up provisioning profiles settings on Xcode project
+        script: xcode-project use-profiles
+
+      - name: Increment build number
+        script: |
+          cd $PROJECT_PATH
+          # 确保进入包含 .xcodeproj 文件的目录
+          # 获取最新构建号并增加 1
+          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
+          agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+
+
+      - name: Build ipa for distribution
+        script: |
+          xcode-project build-ipa \
+            --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      email:
+        recipients:
+          - 985446278@qq.com
+          - user_2@example.com
+        notify:
+          success: true
+          failure: false
+      app_store_connect:
+        auth: integration
+        submit_to_app_store: true
